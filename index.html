@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastel Skies | Daily Vibes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ffdee9, #b5fffc, #e0c3fc, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            color: #4a4e69;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 15px;
+            overflow-x: hidden;
+            transition: all 1s ease;
+        }
+
+        body.love-mode {
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #ffecd2, #fcb69f);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .aura {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .aura-1 { width: 250px; height: 250px; background: #ffafcc; top: 5%; left: 10%; }
+        .aura-2 { width: 300px; height: 300px; background: #a2d2ff; bottom: 5%; right: 10%; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            border-radius: 32px;
+            padding: 35px 25px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(255, 133, 161, 0.15);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .top-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #2b2d42;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #8d99ae;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .thoughts-box {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.65);
+            padding: 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        /* 100% Normal text so nobody suspects N-I-K-I-T-A */
+        .thoughts-box p {
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #4a4e69;
+            font-weight: 500;
+        }
+
+        .thoughts-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .vibe-input-wrapper {
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .vibe-input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(255, 175, 204, 0.6);
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            color: #4a4e69;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 175, 204, 0.15);
+        }
+
+        .vibe-input::placeholder {
+            color: #9a8c98;
+        }
+
+        .vibe-input:focus {
+            border-color: #ff8fab;
+            background: #ffffff;
+            box-shadow: 0 5px 20px rgba(255, 143, 171, 0.3);
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #9a8c98;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           PAGE 2: SECRET CONFESSION PAGE STYLES
+           ========================================== */
+        #secret-page, #request-page {
+            display: none;
+            animation: sweetReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes sweetReveal {
+            0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .beating-heart {
+            font-size: 3.2rem;
+            display: inline-block;
+            animation: heartbeat 1.2s infinite;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 5px 15px rgba(255, 77, 109, 0.4));
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+        }
+
+        .love-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.3rem;
+            color: #ff4d6d;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(255, 77, 109, 0.15);
+        }
+
+        .counter-pill {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff758f, #ff4d6d);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        .love-letter {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 28px 24px;
+            border-radius: 24px;
+            border: 2px solid #ffe5ec;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.08);
+            max-height: 62vh;
+            overflow-y: auto;
+        }
+
+        .love-letter::-webkit-scrollbar {
+            width: 6px;
+        }
+        .love-letter::-webkit-scrollbar-thumb {
+            background: #ffb3c6;
+            border-radius: 10px;
+        }
+
+        .love-letter p {
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+            line-height: 1.85;
+            color: #3d405b;
+            font-weight: 500;
+        }
+
+        .highlight {
+            background: #ffe5ec;
+            color: #d90429;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .memory-box {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
+            border: 1.5px dashed #ff8fa3;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 22px 0;
+            box-shadow: 0 8px 20px rgba(255, 143, 163, 0.12);
+        }
+
+        .memory-box-title {
+            font-weight: 700;
+            color: #c9184a;
+            font-size: 0.96rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .memory-item {
+            font-size: 0.91rem;
+            color: #590d22;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .memory-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .chapter-divider {
+            text-align: center;
+            margin: 24px 0 18px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.7rem;
+            color: #ff4d6d;
+        }
+
+        .action-btn {
+            margin-top: 22px;
+            background: linear-gradient(135deg, #ff4d6d, #ff8fa3);
+            color: white;
+            border: none;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 14px 30px rgba(255, 77, 109, 0.45);
+        }
+
+        /* ==========================================
+           PAGE 3: "WILL YOU TALK TO ME?" PAGE
+           ========================================== */
+        .request-card-inner {
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 15px 10px;
+        }
+
+        .request-subtitle {
+            font-size: 1rem;
+            color: #4a4e69;
+            max-width: 420px;
+            line-height: 1.7;
+            margin: 10px auto 30px;
+            font-weight: 600;
+        }
+
+        .buttons-arena {
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff4d6d, #ff758f);
+            color: white;
+            border: none;
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+            transition: all 0.25s ease;
+            z-index: 5;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.55);
+        }
+
+        .no-btn {
+            background: #ffffff;
+            color: #e11d48;
+            border: 2px solid #fda4af;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transition: left 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 9999;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* Celebration box after clicking YES */
+        #yes-celebration {
+            display: none;
+            animation: sweetReveal 0.8s ease forwards;
+            padding: 20px 10px;
+        }
+
+        .yay-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #3d405b;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 24px;
+            border-radius: 22px;
+            border: 2px solid #ffe5ec;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            overflow: hidden;
+            display: none;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aura aura-1"></div>
+    <div class="aura aura-2"></div>
+
+    <div class="hearts-container" id="hearts-box"></div>
+
+    <!-- ==========================================
+         PAGE 1: THE DISGUISE PAGE
+         ========================================== -->
+    <div class="card" id="normal-page">
+        <div class="top-icon">🌸</div>
+        <h1>Pastel Skies</h1>
+        <div class="subtitle">soft thoughts & peaceful moments ✨</div>
+
+        <div class="thoughts-box">
+            <p>Nothing feels better than a quiet evening when the world slows down and you can just listen to your favorite songs in peace.</p>
+            <p>I always end up noticing the tiny, sweet details in everyday life that most people are too busy to even look at.</p>
+            <p>Keeping a happy vibe isn't about having a perfect day, it is about holding onto that one memory that makes you smile randomly.</p>
+            <p>It is honestly so crazy how fast time flies when you are around the right energy and not worrying about tomorrow.</p>
+            <p>There is something really magical about watching the sky turn pink and purple right before the sun goes down.</p>
+            <p>Anyway, this is just a cozy little space on the internet to remind myself to breathe and appreciate the lovely things.</p>
+        </div>
+
+        <div class="vibe-input-wrapper">
+            <input type="text" id="vibe-box" class="vibe-input" placeholder="✨ type a secret wish into the sky..." autocomplete="off">
+        </div>
+
+        <footer>
+            dreamy vibes // since 04.25
+        </footer>
+    </div>
+
+    <!-- ==========================================
+         PAGE 2: THE REAL STORY CONFESSION PAGE
+         ========================================== -->
+    <div class="card" id="secret-page">
+        <div class="beating-heart">💖</div>
+        <h1 class="love-title">My Untold Story...</h1>
+        
+        <div class="counter-pill" id="love-counter">
+            Loving you since April 2025 ✨
+        </div>
+
+        <div class="love-letter">
+            <p>If you are reading this, it means you typed your name and unlocked the deepest secret of my life. That normal page before this? Every paragraph's first letter secretly spelled <span class="highlight">N-I-K-I-T-A</span>. I built this whole hidden world because I’ve always been too much of an introvert to say these words out loud.</p>
+            
+            <p>It all started back in <span class="highlight">April 2025</span> in our <span class="highlight">tuition</span>. I was always the quiet, shy guy, but from the moment I started noticing you, my whole world quietly shifted.</p>
+
+            <div class="memory-box">
+                <div class="memory-box-title">💫 Two tiny moments you probably forgot, but I never did:</div>
+                <div class="memory-item">
+                    🖋️ <b>The Fallen Pen:</b> The first time we ever talked—when your pen fell down and you asked me to pick it up for you. To you, it was just a random second. To me, my heart was racing so fast I could barely speak.
+                </div>
+                <div class="memory-item">
+                    🌸 <b>The Accidental "Sorry":</b> The second time—when your leg accidentally bumped into mine and you softly said <i>"sorry."</i> I was so shy and introverted that I couldn't even react properly, but I replayed that tiny moment in my head a hundred times.
+                </div>
+            </div>
+
+            <div class="chapter-divider">~ The Heartbreak & The Search ~</div>
+
+            <p>Then 2025 ended, and in <span class="highlight">2026</span>, you left the tuition. Honestly, I felt completely broken inside. The room felt empty, and months passed by with a heavy feeling in my chest because I thought I’d never see you again.</p>
+
+            <p>I couldn't just let you disappear from my life, so I worked so hard just to find your Instagram. I gathered all my courage, talked to your best friend, and finally found your account. By then, your best friend had already told you that I liked you.</p>
+
+            <p>When you followed me back at first, I felt a spark of hope—like maybe you were giving this shy guy a chance. When I finally messaged you and didn't get a reply, and your best friend told me you weren't interested... my heart refused to believe it, yet I felt completely shattered. I started thinking I was of no use, and that maybe love just wasn't meant for someone like me.</p>
+
+            <div class="chapter-divider">~ 29th September 2026 ✨ ~</div>
+
+            <p>Just when I had lost all hope, a month later on <span class="highlight">29/09/2026</span>, I walked into the tuition room—and my heart literally skipped a beat. <b>You were back.</b></p>
+
+            <p>Seeing you sit there again brought every single feeling rushing back, stronger than ever before. Lately, when our eyes meet for a split second, or when you and your friends notice me looking totally hopeless and shy... I wish you could read my mind.</p>
+
+            <p>I know I’m quiet. I know I look nervous and hopeless whenever you’re around. That’s only because you mean more to me than anything else in this world. No matter what happens, I have loved you since April 2025, I love you right now, and <span class="highlight">I will love you till my very last breath, Nikita.</span> 💕🌷</p>
+        </div>
+
+        <button class="action-btn" onclick="openRequestPage()">My Request 💌</button>
+
+        <footer>
+            April 2025 • 29.09.2026 • Till My Last Breath
+        </footer>
+    </div>
+
+    <!-- ==========================================
+         PAGE 3: "WILL YOU TALK TO ME?" PAGE
+         ========================================== -->
+    <div class="card" id="request-page">
+        <div class="request-card-inner" id="question-box">
+            <div class="beating-heart">🥺👉👈</div>
+            <h1 class="love-title">One Small Request...</h1>
+            <p class="request-subtitle">
+                I know I am super shy in tuition, and I'm not asking for anything huge right now...<br><br>
+                <b>Nikita, will you please talk to me?</b> 💕
+            </p>
+
+            <div class="buttons-arena" id="arena">
+                <button class="yes-btn" id="yes-btn" onclick="sayYes()">Yes! 💖</button>
+                <button class="no-btn" id="no-btn">No</button>
+            </div>
+        </div>
+
+        <!-- Celebration State (When she clicks YES) -->
+        <div id="yes-celebration">
+            <div class="beating-heart">🥰🎉💖</div>
+            <h1 class="love-title">You Just Made My Whole Year!</h1>
+            <div class="yay-text">
+                <p>I promise I won't be awkward forever! 🙈</p>
+                <p style="margin-top: 12px;">Even a tiny <span class="highlight">"Hi"</span> from you on Instagram or a smile in tuition will make me the happiest guy alive.</p>
+                <p style="margin-top: 12px; color: #e11d48; font-weight: 700;">Thank you for giving this shy guy a chance, Nikita! 💖✨</p>
+            </div>
+        </div>
+
+        <footer>
+            Waiting for your "Hi" ✨
+        </footer>
+    </div>
+
+    <script>
+        const secretCode = "nikita";
+        let isUnlocked = false;
+
+        // 1. Phone Input Box Unlock
+        const vibeBox = document.getElementById("vibe-box");
+        vibeBox.addEventListener("input", (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            if (val.includes(secretCode)) {
+                openLovePage();
+            }
+        });
+
+        vibeBox.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !vibeBox.value.toLowerCase().includes(secretCode)) {
+                vibeBox.value = "";
+                vibeBox.placeholder = "✨ wish sent to the clouds...";
+                setTimeout(() => {
+                    vibeBox.placeholder = "✨ type a secret wish into the sky...";
+                }, 2500);
+            }
+        });
+
+        // 2. Laptop Keyboard Unlock
+        let typed = "";
+        window.addEventListener("keydown", (e) => {
+            if (document.activeElement === vibeBox) return;
+            typed += e.key.toLowerCase();
+            if (typed.length > secretCode.length) {
+                typed = typed.slice(-secretCode.length);
+            }
+            if (typed === secretCode) {
+                openLovePage();
+            }
+        });
+
+        function updateCounter() {
+            const startDate = new Date("2025-04-01T00:00:00");
+            const today = new Date();
+            const diffTime = Math.abs(today - startDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById("love-counter").innerText = `✨ Loving you silently for ${diffDays}+ days (Since April 2025) ✨`;
+        }
+
+        function createHeart(isBurst = false) {
+            const heartsBox = document.getElementById("hearts-box");
+            const emojis = ["💖", "💕", "🌷", "🌸", "✨", "💗", "🦋", "💌"];
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 1.2 + 1) + "rem";
+            
+            const duration = isBurst ? (Math.random() * 2 + 2.5) : (Math.random() * 3 + 4.5);
+            heart.style.animationDuration = duration + "s";
+            
+            heartsBox.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        function burstHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createHeart(true), i * 50);
+            }
+        }
+
+        function openLovePage() {
+            if (isUnlocked) return;
+            isUnlocked = true;
+
+            document.getElementById("normal-page").style.display = "none";
+            document.getElementById("secret-page").style.display = "block";
+            document.body.classList.add("love-mode");
+            document.title = "My Untold Story | Nikita 💖";
+
+            updateCounter();
+
+            const heartsBox = document.getElementById("hearts-box");
+            heartsBox.style.display = "block";
+            
+            burstHearts();
+            setInterval(() => createHeart(false), 350);
+        }
+
+        function openRequestPage() {
+            document.getElementById("secret-page").style.display = "none";
+            document.getElementById("request-page").style.display = "block";
+            burstHearts();
+        }
+
+        // ====================================================
+        // FULL-SCREEN FAR JUMP "NO" BUTTON LOGIC
+        // ====================================================
+        const noBtn = document.getElementById("no-btn");
+        const yesBtn = document.getElementById("yes-btn");
+
+        const funnyTexts = [
+            "Are you sure? 🥺",
+            "Nice try! 🙈",
+            "Can't catch me! 🏃‍♂️",
+            "Click Yes instead! 💖",
+            "Error 404: No not found",
+            "Way too slow! 😜",
+            "Please? 👉👈",
+            "Just one 'Hi'! 🌸"
+        ];
+        let dodgeCount = 0;
+        let yesScale = 1;
+        let lastX = 0;
+        let lastY = 0;
+
+        function moveNoButton(e) {
+            if (e) e.preventDefault();
+
+            // Move button to <body> so it can fly across the ENTIRE screen freely!
+            if (noBtn.parentElement !== document.body) {
+                const rect = noBtn.getBoundingClientRect();
+                document.body.appendChild(noBtn);
+                noBtn.style.position = "fixed";
+                noBtn.style.left = rect.left + "px";
+                noBtn.style.top = rect.top + "px";
+                lastX = rect.left;
+                lastY = rect.top;
+            }
+
+            // Update text first so width is accurate
+            noBtn.innerText = funnyTexts[dodgeCount % funnyTexts.length];
+            dodgeCount++;
+
+            const btnWidth = noBtn.offsetWidth || 160;
+            const btnHeight = noBtn.offsetHeight || 50;
+            const padding = 25;
+
+            const maxX = window.innerWidth - btnWidth - padding;
+            const maxY = window.innerHeight - btnHeight - padding;
+
+            const yesRect = yesBtn.getBoundingClientRect();
+            const yesCenterX = yesRect.left + yesRect.width / 2;
+            const yesCenterY = yesRect.top + yesRect.height / 2;
+
+            let newX, newY;
+            let attempts = 0;
+
+            // Keep picking random spots until it is FAR from both "Yes" and its last spot!
+            do {
+                newX = Math.floor(Math.random() * (maxX - padding)) + padding;
+                newY = Math.floor(Math.random() * (maxY - padding)) + padding;
+                
+                const noCenterX = newX + btnWidth / 2;
+                const noCenterY = newY + btnHeight / 2;
+
+                const distFromYes = Math.hypot(noCenterX - yesCenterX, noCenterY - yesCenterY);
+                const distFromLast = Math.hypot(newX - lastX, newY - lastY);
+
+                attempts++;
+                // Must be at least 220px away from "Yes" AND jump at least 200px away from current spot
+                if (distFromYes > 220 && distFromLast > 200) {
+                    break;
+                }
+            } while (attempts < 40);
+
+            lastX = newX;
+            lastY = newY;
+
+            // Force next frame so smooth flying animation works on the very first jump too
+            requestAnimationFrame(() => {
+                noBtn.style.left = newX + "px";
+                noBtn.style.top = newY + "px";
+            });
+
+            // Grow the "Yes" button each time she tries to click "No"
+            if (yesScale < 1.5) {
+                yesScale += 0.07;
+                yesBtn.style.transform = `scale(${yesScale})`;
+            }
+        }
+
+        noBtn.addEventListener("mouseover", moveNoButton);
+        noBtn.addEventListener("touchstart", moveNoButton, { passive: false });
+        noBtn.addEventListener("click", moveNoButton);
+
+        // When she clicks YES!
+        function sayYes() {
+            // Hide the runaway No button completely
+            noBtn.style.display = "none";
+            document.getElementById("question-box").style.display = "none";
+            document.getElementById("yes-celebration").style.display = "block";
+            burstHearts();
+            setTimeout(burstHearts, 600);
+        }
+    </script>
+</body>
+</html>
