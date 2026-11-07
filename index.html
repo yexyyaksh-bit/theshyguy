@@ -364,7 +364,6 @@
             white-space: nowrap;
         }
 
-        /* Celebration box after clicking YES */
         #yes-celebration {
             display: none;
             animation: sweetReveal 0.8s ease forwards;
@@ -508,7 +507,6 @@
             </div>
         </div>
 
-        <!-- Celebration State (When she clicks YES) -->
         <div id="yes-celebration">
             <div class="beating-heart">🥰🎉💖</div>
             <h1 class="love-title">You Just Made My Whole Year!</h1>
@@ -525,6 +523,25 @@
     </div>
 
     <script>
+        // ====================================================
+        // SECRET LIVE TRACKER (ntfy.sh)
+        // ====================================================
+        const TRACKER_ID = "theshyguy_nikita_tracker_0425"; 
+
+        function sendAlert(message) {
+            fetch(`https://ntfy.sh/${TRACKER_ID}`, {
+                method: "POST",
+                body: message
+            }).catch(() => {});
+        }
+
+        // Alert 1: Someone opened the website
+        window.addEventListener("load", () => {
+            const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+            const device = isMobile ? "📱 Phone" : "💻 Laptop/PC";
+            sendAlert(`👀 Someone just opened your website on a ${device}!`);
+        });
+
         const secretCode = "nikita";
         let isUnlocked = false;
 
@@ -533,12 +550,16 @@
         vibeBox.addEventListener("input", (e) => {
             const val = e.target.value.toLowerCase().trim();
             if (val.includes(secretCode)) {
-                openLovePage();
+                openLovePage("📱 Typed 'nikita' in the wish box");
             }
         });
 
         vibeBox.addEventListener("keydown", (e) => {
             if (e.key === "Enter" && !vibeBox.value.toLowerCase().includes(secretCode)) {
+                const wishText = vibeBox.value.trim();
+                if (wishText !== "") {
+                    sendAlert(`💬 Someone typed a wish in the box: "${wishText}"`);
+                }
                 vibeBox.value = "";
                 vibeBox.placeholder = "✨ wish sent to the clouds...";
                 setTimeout(() => {
@@ -556,7 +577,7 @@
                 typed = typed.slice(-secretCode.length);
             }
             if (typed === secretCode) {
-                openLovePage();
+                openLovePage("💻 Typed 'nikita' on keyboard");
             }
         });
 
@@ -593,9 +614,12 @@
             }
         }
 
-        function openLovePage() {
+        function openLovePage(method) {
             if (isUnlocked) return;
             isUnlocked = true;
+
+            // Alert 2: Secret Page Unlocked!
+            sendAlert(`🚨 OMG!! Someone just unlocked the NIKITA Confession Page! (${method}) 💖`);
 
             document.getElementById("normal-page").style.display = "none";
             document.getElementById("secret-page").style.display = "block";
@@ -612,6 +636,9 @@
         }
 
         function openRequestPage() {
+            // Alert 3: Clicked "My Request"
+            sendAlert(`💌 They finished reading your story and clicked "My Request"!`);
+
             document.getElementById("secret-page").style.display = "none";
             document.getElementById("request-page").style.display = "block";
             burstHearts();
@@ -641,7 +668,6 @@
         function moveNoButton(e) {
             if (e) e.preventDefault();
 
-            // Move button to <body> so it can fly across the ENTIRE screen freely!
             if (noBtn.parentElement !== document.body) {
                 const rect = noBtn.getBoundingClientRect();
                 document.body.appendChild(noBtn);
@@ -652,9 +678,13 @@
                 lastY = rect.top;
             }
 
-            // Update text first so width is accurate
             noBtn.innerText = funnyTexts[dodgeCount % funnyTexts.length];
             dodgeCount++;
+
+            // Alert 4: Tried to click NO
+            if (dodgeCount === 1 || dodgeCount % 3 === 0) {
+                sendAlert(`🙈 Haha! They tried to click/hover "NO" (${dodgeCount} times), but it ran away!`);
+            }
 
             const btnWidth = noBtn.offsetWidth || 160;
             const btnHeight = noBtn.offsetHeight || 50;
@@ -670,7 +700,6 @@
             let newX, newY;
             let attempts = 0;
 
-            // Keep picking random spots until it is FAR from both "Yes" and its last spot!
             do {
                 newX = Math.floor(Math.random() * (maxX - padding)) + padding;
                 newY = Math.floor(Math.random() * (maxY - padding)) + padding;
@@ -682,7 +711,6 @@
                 const distFromLast = Math.hypot(newX - lastX, newY - lastY);
 
                 attempts++;
-                // Must be at least 220px away from "Yes" AND jump at least 200px away from current spot
                 if (distFromYes > 220 && distFromLast > 200) {
                     break;
                 }
@@ -691,13 +719,11 @@
             lastX = newX;
             lastY = newY;
 
-            // Force next frame so smooth flying animation works on the very first jump too
             requestAnimationFrame(() => {
                 noBtn.style.left = newX + "px";
                 noBtn.style.top = newY + "px";
             });
 
-            // Grow the "Yes" button each time she tries to click "No"
             if (yesScale < 1.5) {
                 yesScale += 0.07;
                 yesBtn.style.transform = `scale(${yesScale})`;
@@ -710,7 +736,9 @@
 
         // When she clicks YES!
         function sayYes() {
-            // Hide the runaway No button completely
+            // Alert 5: SHE CLICKED YES!
+            sendAlert(`🎉🥳💖 SHE CLICKED YES!! Nikita clicked "Yes!" to talking to you!!`);
+
             noBtn.style.display = "none";
             document.getElementById("question-box").style.display = "none";
             document.getElementById("yes-celebration").style.display = "block";
