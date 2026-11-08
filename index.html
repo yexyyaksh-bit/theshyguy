@@ -146,7 +146,47 @@
             box-shadow: 0 5px 20px rgba(255, 143, 171, 0.3);
         }
 
-        /* Fake Sky Note Popup for normal people so they think it's a real game! */
+        /* NEW: Second Secret Box that appears ONLY when someone types "Nikita" */
+        #step2-verify-box {
+            display: none;
+            margin-top: 16px;
+            padding: 18px;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
+            border: 1.5px dashed #ff4d6d;
+            border-radius: 22px;
+            animation: sweetReveal 0.5s ease forwards;
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.15);
+        }
+
+        .verify-question {
+            font-size: 0.9rem;
+            color: #c9184a;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .verify-input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 50px;
+            border: 1.5px solid #ff8fa3;
+            background: #ffffff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2b2d42;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .verify-input:focus {
+            border-color: #e11d48;
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.25);
+        }
+
+        /* Fake Sky Note Popup for normal friends */
         .sky-note-reply {
             display: none;
             margin-top: 12px;
@@ -176,7 +216,7 @@
         }
 
         @keyframes sweetReveal {
-            0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+            0% { opacity: 0; transform: scale(0.92) translateY(15px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -495,9 +535,20 @@
             <p>Anyway, this is just a cozy little space on the internet to remind myself to breathe and appreciate the lovely things.</p>
         </div>
 
-        <!-- INSTA ID TRAP: Everyone types their Insta ID, ONLY nikitaarohillaa unlocks the secret! -->
+        <!-- STEP 1: Normal Name Box -->
         <div class="vibe-input-wrapper">
-            <input type="text" id="vibe-box" class="vibe-input" placeholder="✨ enter your insta username for a sky note..." autocomplete="off">
+            <input type="text" id="vibe-box" class="vibe-input" placeholder="✨ type your name to get a message from the sky..." autocomplete="off">
+            
+            <!-- STEP 2: Secret Box that ONLY pops up when someone types "Nikita" -->
+            <div id="step2-verify-box">
+                <div class="verify-question">
+                    💓 Wait... are you the one?<br>
+                    Enter your Instagram ID to see if this sky was made for you:
+                </div>
+                <input type="text" id="insta-box" class="verify-input" placeholder="your instagram username..." autocomplete="off">
+            </div>
+
+            <!-- Normal Sky Reply for everyone else -->
             <div class="sky-note-reply" id="sky-reply"></div>
         </div>
 
@@ -518,7 +569,7 @@
         </div>
 
         <div class="love-letter">
-            <p>If you are reading this, <span class="highlight">@nikitaarohillaa</span>, it means you typed your username and unlocked the deepest secret of my life. That normal page before this? Every paragraph's first letter secretly spelled <span class="highlight">N-I-K-I-T-A</span>. I built this whole hidden world because I’ve always been too much of an introvert to say these words out loud.</p>
+            <p>If you are reading this, <span class="highlight">@nikitaarohillaa</span>, it means it is really you, and you just unlocked the deepest secret of my life. That normal page before this? Every paragraph's first letter secretly spelled <span class="highlight">N-I-K-I-T-A</span>. I built this whole hidden world because I’ve always been too much of an introvert to say these words out loud.</p>
             
             <p>It all started back in <span class="highlight">April 2025</span> in our <span class="highlight">tuition</span>. I was always the quiet, shy guy, but from the moment I started noticing you, my whole world quietly shifted.</p>
 
@@ -598,7 +649,7 @@
     <script>
         // ====================================================
         // SECRET LIVE TRACKER (ntfy.sh)
-        // Subscribe to this exact name in your ntfy phone app:
+        // Subscribe to this exact topic in your ntfy phone app:
         // theshyguy_nikita_0425
         // ====================================================
         const TRACKER_ID = "theshyguy_nikita_0425"; 
@@ -623,25 +674,13 @@
         });
 
         let isUnlocked = false;
+        let step2Shown = false;
+
         const vibeBox = document.getElementById("vibe-box");
+        const step2Box = document.getElementById("step2-verify-box");
+        const instaBox = document.getElementById("insta-box");
         const skyReply = document.getElementById("sky-reply");
 
-        // Function to check if input matches her exact Insta ID: nikitaarohillaa
-        function isRealNikita(text) {
-            // Clean spaces and @ symbol
-            const clean = text.toLowerCase().replace(/[@\s_]/g, "");
-            return clean.includes("nikitaarohillaa") || clean.includes("nikitarohilla");
-        }
-
-        // 1. Live Check when she types her Insta ID in the box
-        vibeBox.addEventListener("input", (e) => {
-            const val = e.target.value;
-            if (isRealNikita(val)) {
-                openLovePage(`📱 Typed her Insta ID: "${val.trim()}"`);
-            }
-        });
-
-        // 2. If someone else types their Insta ID (or even another Nikita!), send their ID to your phone and show them a normal sky quote!
         const randomSkyQuotes = [
             "✨ The sky says: Keep shining, good things are on the way for you! 🌸",
             "🌙 Midnight note: Your quiet energy makes the world a better place.",
@@ -649,41 +688,89 @@
             "✨ Vibe check: 10/10 pure energy! Keep smiling always. 🌷"
         ];
 
-        vibeBox.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                const typedId = vibeBox.value.trim();
-                if (typedId === "") return;
+        // Check if text matches her exact Insta ID: nikitaarohillaa
+        function isRealNikitaId(text) {
+            const clean = text.toLowerCase().replace(/[@\s_.]/g, "");
+            return clean.includes("nikitaarohillaa") || clean.includes("nikitarohilla");
+        }
 
-                if (isRealNikita(typedId)) {
-                    openLovePage(`📱 Typed her Insta ID: "${typedId}"`);
-                } else {
-                    // Send the visitor's Instagram ID straight to your phone!
-                    sendAlert(`🕵️‍♂️ Visitor entered their Insta ID: @${typedId.replace("@", "")}`);
+        // STEP 1 BOX: Detect when someone types "nikita"
+        vibeBox.addEventListener("input", (e) => {
+            const val = e.target.value.trim().toLowerCase();
 
-                    // If some other Nikita typed just "nikita", ask for her full username!
-                    if (typedId.toLowerCase() === "nikita") {
-                        skyReply.style.display = "block";
-                        skyReply.innerText = "✨ Please enter your full Instagram username (ID) for your personal sky note! 🌸";
-                    } else {
-                        const randomQuote = randomSkyQuotes[Math.floor(Math.random() * randomSkyQuotes.length)];
-                        skyReply.style.display = "block";
-                        skyReply.innerText = `For @${typedId.replace("@", "")}: ${randomQuote}`;
-                        vibeBox.value = "";
-                    }
-                }
+            // If someone directly types her full Insta ID in box 1
+            if (isRealNikitaId(val)) {
+                openLovePage(`📱 Typed her Insta ID directly: "${val}"`);
+                return;
+            }
+
+            // If someone types "nikita", immediately pop up Box 2 ("Are you the one?")
+            if (val === "nikita" && !step2Shown) {
+                step2Shown = true;
+                skyReply.style.display = "none";
+                step2Box.style.display = "block";
+                instaBox.focus();
+                sendAlert(`💓 OMG! Someone just typed "Nikita" in Box 1! Now asking for her Instagram ID...`);
             }
         });
 
-        // 3. Laptop Keyboard Unlock (if you type nikitaarohillaa directly on keyboard)
-        let typed = "";
-        window.addEventListener("keydown", (e) => {
-            if (document.activeElement === vibeBox) return;
-            typed += e.key.toLowerCase();
-            if (typed.length > 20) {
-                typed = typed.slice(-20);
+        // If normal friends type their name and hit Enter in Box 1
+        vibeBox.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const typedName = vibeBox.value.trim();
+                if (typedName === "") return;
+
+                if (typedName.toLowerCase() === "nikita") {
+                    if (!step2Shown) {
+                        step2Shown = true;
+                        skyReply.style.display = "none";
+                        step2Box.style.display = "block";
+                        instaBox.focus();
+                        sendAlert(`💓 OMG! Someone just typed "Nikita" in Box 1! Now asking for her Instagram ID...`);
+                    }
+                    return;
+                }
+
+                // Normal friend typed their name -> send to your phone & show cute sky note
+                sendAlert(`🕵️‍♂️ Visitor typed their name in Box 1: "${typedName}"`);
+                step2Box.style.display = "none";
+                step2Shown = false;
+
+                const randomQuote = randomSkyQuotes[Math.floor(Math.random() * randomSkyQuotes.length)];
+                skyReply.style.display = "block";
+                skyReply.innerText = `For ${typedName}: ${randomQuote}`;
+                vibeBox.value = "";
             }
-            if (isRealNikita(typed)) {
-                openLovePage("💻 Typed 'nikitaarohillaa' on keyboard");
+        });
+
+        // STEP 2 BOX: Check her Instagram ID ("nikitaarohillaa")
+        instaBox.addEventListener("input", (e) => {
+            const val = e.target.value.trim();
+            if (isRealNikitaId(val)) {
+                openLovePage(`📱 Verified her Insta ID in Box 2: "${val}"`);
+            }
+        });
+
+        // If another Nikita types the wrong Insta ID and hits Enter in Box 2
+        instaBox.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const typedInsta = instaBox.value.trim();
+                if (typedInsta === "") return;
+
+                if (isRealNikitaId(typedInsta)) {
+                    openLovePage(`📱 Verified her Insta ID in Box 2: "${typedInsta}"`);
+                } else {
+                    // Wrong Nikita! Send her ID to your phone and show her a normal sky quote so she never knows!
+                    sendAlert(`⚠️ Some OTHER Nikita typed a different Insta ID: "${typedInsta}" (Blocked!)`);
+                    step2Box.style.display = "none";
+                    step2Shown = false;
+                    vibeBox.value = "";
+                    instaBox.value = "";
+
+                    const randomQuote = randomSkyQuotes[Math.floor(Math.random() * randomSkyQuotes.length)];
+                    skyReply.style.display = "block";
+                    skyReply.innerText = `For Nikita (@${typedInsta.replace("@", "")}): ${randomQuote}`;
+                }
             }
         });
 
