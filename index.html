@@ -124,9 +124,10 @@
             padding: 14px 20px;
             border-radius: 50px;
             border: 1.5px solid rgba(255, 175, 204, 0.6);
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             font-family: 'Quicksand', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
+            font-weight: 600;
             color: #4a4e69;
             text-align: center;
             outline: none;
@@ -136,12 +137,27 @@
 
         .vibe-input::placeholder {
             color: #9a8c98;
+            font-weight: 500;
         }
 
         .vibe-input:focus {
             border-color: #ff8fab;
             background: #ffffff;
             box-shadow: 0 5px 20px rgba(255, 143, 171, 0.3);
+        }
+
+        /* Fake Sky Note Popup for normal people so they think it's a real game! */
+        .sky-note-reply {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 16px;
+            font-size: 0.88rem;
+            color: #6d597a;
+            font-weight: 600;
+            border: 1px solid #ffafcc;
+            animation: sweetReveal 0.4s ease forwards;
         }
 
         footer {
@@ -367,19 +383,68 @@
         #yes-celebration {
             display: none;
             animation: sweetReveal 0.8s ease forwards;
-            padding: 20px 10px;
+            padding: 10px 5px;
         }
 
         .yay-text {
-            font-size: 1.05rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.75;
             color: #3d405b;
             background: rgba(255, 255, 255, 0.9);
-            padding: 24px;
+            padding: 22px;
             border-radius: 22px;
             border: 2px solid #ffe5ec;
-            margin-top: 15px;
+            margin-top: 12px;
             font-weight: 600;
+        }
+
+        /* Direct Message Box to Your Phone */
+        .direct-reply-box {
+            margin-top: 18px;
+            background: #fff0f3;
+            padding: 18px;
+            border-radius: 20px;
+            border: 1.5px dashed #ff8fa3;
+        }
+
+        .direct-reply-box p {
+            font-size: 0.88rem;
+            color: #c9184a;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .reply-textarea {
+            width: 100%;
+            height: 75px;
+            padding: 12px 15px;
+            border-radius: 14px;
+            border: 1.5px solid #ffb3c6;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.92rem;
+            color: #2b2d42;
+            outline: none;
+            resize: none;
+            background: #ffffff;
+        }
+
+        .reply-textarea:focus {
+            border-color: #ff4d6d;
+        }
+
+        .send-reply-btn {
+            margin-top: 10px;
+            background: linear-gradient(135deg, #ff4d6d, #c9184a);
+            color: white;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(201, 24, 74, 0.3);
+            transition: all 0.2s ease;
         }
 
         .hearts-container {
@@ -430,8 +495,10 @@
             <p>Anyway, this is just a cozy little space on the internet to remind myself to breathe and appreciate the lovely things.</p>
         </div>
 
+        <!-- INSTA ID TRAP: Everyone types their Insta ID, ONLY nikitaarohillaa unlocks the secret! -->
         <div class="vibe-input-wrapper">
-            <input type="text" id="vibe-box" class="vibe-input" placeholder="✨ type a secret wish into the sky..." autocomplete="off">
+            <input type="text" id="vibe-box" class="vibe-input" placeholder="✨ enter your insta username for a sky note..." autocomplete="off">
+            <div class="sky-note-reply" id="sky-reply"></div>
         </div>
 
         <footer>
@@ -451,7 +518,7 @@
         </div>
 
         <div class="love-letter">
-            <p>If you are reading this, it means you typed your name and unlocked the deepest secret of my life. That normal page before this? Every paragraph's first letter secretly spelled <span class="highlight">N-I-K-I-T-A</span>. I built this whole hidden world because I’ve always been too much of an introvert to say these words out loud.</p>
+            <p>If you are reading this, <span class="highlight">@nikitaarohillaa</span>, it means you typed your username and unlocked the deepest secret of my life. That normal page before this? Every paragraph's first letter secretly spelled <span class="highlight">N-I-K-I-T-A</span>. I built this whole hidden world because I’ve always been too much of an introvert to say these words out loud.</p>
             
             <p>It all started back in <span class="highlight">April 2025</span> in our <span class="highlight">tuition</span>. I was always the quiet, shy guy, but from the moment I started noticing you, my whole world quietly shifted.</p>
 
@@ -512,8 +579,14 @@
             <h1 class="love-title">You Just Made My Whole Year!</h1>
             <div class="yay-text">
                 <p>I promise I won't be awkward forever! 🙈</p>
-                <p style="margin-top: 12px;">Even a tiny <span class="highlight">"Hi"</span> from you on Instagram or a smile in tuition will make me the happiest guy alive.</p>
-                <p style="margin-top: 12px; color: #e11d48; font-weight: 700;">Thank you for giving this shy guy a chance, Nikita! 💖✨</p>
+                <p style="margin-top: 8px;">Even a tiny <span class="highlight">"Hi"</span> from you will make me the happiest guy alive.</p>
+                
+                <div class="direct-reply-box">
+                    <p>💌 Want to say something to me right now? (Only I will see it!)</p>
+                    <textarea id="nikita-msg" class="reply-textarea" placeholder="Type anything here, Nikita... even just a 'Hi' 🌸"></textarea>
+                    <br>
+                    <button class="send-reply-btn" id="send-btn" onclick="sendNikitaReply()">Send Directly to Me 💌</button>
+                </div>
             </div>
         </div>
 
@@ -525,8 +598,10 @@
     <script>
         // ====================================================
         // SECRET LIVE TRACKER (ntfy.sh)
+        // Subscribe to this exact name in your ntfy phone app:
+        // theshyguy_nikita_0425
         // ====================================================
-        const TRACKER_ID = "theshyguy_nikita_tracker_0425"; 
+        const TRACKER_ID = "theshyguy_nikita_0425"; 
 
         function sendAlert(message) {
             fetch(`https://ntfy.sh/${TRACKER_ID}`, {
@@ -537,47 +612,78 @@
 
         // Alert 1: Someone opened the website
         window.addEventListener("load", () => {
-            const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-            const device = isMobile ? "📱 Phone" : "💻 Laptop/PC";
-            sendAlert(`👀 Someone just opened your website on a ${device}!`);
+            const ua = navigator.userAgent;
+            let device = "💻 Laptop/PC";
+            if (/iPhone/i.test(ua)) device = "📱 iPhone";
+            else if (/Android/i.test(ua)) device = "📱 Android Phone";
+            else if (/iPad/i.test(ua)) device = "📱 iPad";
+
+            const isInsta = /Instagram/i.test(ua) ? " 📸 (Clicked from Instagram!)" : "";
+            sendAlert(`👀 Website Opened on: ${device}${isInsta}`);
         });
 
-        const secretCode = "nikita";
         let isUnlocked = false;
-
-        // 1. Phone Input Box Unlock
         const vibeBox = document.getElementById("vibe-box");
+        const skyReply = document.getElementById("sky-reply");
+
+        // Function to check if input matches her exact Insta ID: nikitaarohillaa
+        function isRealNikita(text) {
+            // Clean spaces and @ symbol
+            const clean = text.toLowerCase().replace(/[@\s_]/g, "");
+            return clean.includes("nikitaarohillaa") || clean.includes("nikitarohilla");
+        }
+
+        // 1. Live Check when she types her Insta ID in the box
         vibeBox.addEventListener("input", (e) => {
-            const val = e.target.value.toLowerCase().trim();
-            if (val.includes(secretCode)) {
-                openLovePage("📱 Typed 'nikita' in the wish box");
+            const val = e.target.value;
+            if (isRealNikita(val)) {
+                openLovePage(`📱 Typed her Insta ID: "${val.trim()}"`);
             }
         });
+
+        // 2. If someone else types their Insta ID (or even another Nikita!), send their ID to your phone and show them a normal sky quote!
+        const randomSkyQuotes = [
+            "✨ The sky says: Keep shining, good things are on the way for you! 🌸",
+            "🌙 Midnight note: Your quiet energy makes the world a better place.",
+            "☁️ Cloud check: A peaceful surprise is waiting for you this week!",
+            "✨ Vibe check: 10/10 pure energy! Keep smiling always. 🌷"
+        ];
 
         vibeBox.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" && !vibeBox.value.toLowerCase().includes(secretCode)) {
-                const wishText = vibeBox.value.trim();
-                if (wishText !== "") {
-                    sendAlert(`💬 Someone typed a wish in the box: "${wishText}"`);
+            if (e.key === "Enter") {
+                const typedId = vibeBox.value.trim();
+                if (typedId === "") return;
+
+                if (isRealNikita(typedId)) {
+                    openLovePage(`📱 Typed her Insta ID: "${typedId}"`);
+                } else {
+                    // Send the visitor's Instagram ID straight to your phone!
+                    sendAlert(`🕵️‍♂️ Visitor entered their Insta ID: @${typedId.replace("@", "")}`);
+
+                    // If some other Nikita typed just "nikita", ask for her full username!
+                    if (typedId.toLowerCase() === "nikita") {
+                        skyReply.style.display = "block";
+                        skyReply.innerText = "✨ Please enter your full Instagram username (ID) for your personal sky note! 🌸";
+                    } else {
+                        const randomQuote = randomSkyQuotes[Math.floor(Math.random() * randomSkyQuotes.length)];
+                        skyReply.style.display = "block";
+                        skyReply.innerText = `For @${typedId.replace("@", "")}: ${randomQuote}`;
+                        vibeBox.value = "";
+                    }
                 }
-                vibeBox.value = "";
-                vibeBox.placeholder = "✨ wish sent to the clouds...";
-                setTimeout(() => {
-                    vibeBox.placeholder = "✨ type a secret wish into the sky...";
-                }, 2500);
             }
         });
 
-        // 2. Laptop Keyboard Unlock
+        // 3. Laptop Keyboard Unlock (if you type nikitaarohillaa directly on keyboard)
         let typed = "";
         window.addEventListener("keydown", (e) => {
             if (document.activeElement === vibeBox) return;
             typed += e.key.toLowerCase();
-            if (typed.length > secretCode.length) {
-                typed = typed.slice(-secretCode.length);
+            if (typed.length > 20) {
+                typed = typed.slice(-20);
             }
-            if (typed === secretCode) {
-                openLovePage("💻 Typed 'nikita' on keyboard");
+            if (isRealNikita(typed)) {
+                openLovePage("💻 Typed 'nikitaarohillaa' on keyboard");
             }
         });
 
@@ -618,8 +724,7 @@
             if (isUnlocked) return;
             isUnlocked = true;
 
-            // Alert 2: Secret Page Unlocked!
-            sendAlert(`🚨 OMG!! Someone just unlocked the NIKITA Confession Page! (${method}) 💖`);
+            sendAlert(`🚨💖 JACKPOT!! NIKITA (@nikitaarohillaa) just unlocked your Confession Page! (${method})`);
 
             document.getElementById("normal-page").style.display = "none";
             document.getElementById("secret-page").style.display = "block";
@@ -636,8 +741,7 @@
         }
 
         function openRequestPage() {
-            // Alert 3: Clicked "My Request"
-            sendAlert(`💌 They finished reading your story and clicked "My Request"!`);
+            sendAlert(`💌 Nikita finished reading your story and clicked "My Request"!`);
 
             document.getElementById("secret-page").style.display = "none";
             document.getElementById("request-page").style.display = "block";
@@ -681,9 +785,8 @@
             noBtn.innerText = funnyTexts[dodgeCount % funnyTexts.length];
             dodgeCount++;
 
-            // Alert 4: Tried to click NO
             if (dodgeCount === 1 || dodgeCount % 3 === 0) {
-                sendAlert(`🙈 Haha! They tried to click/hover "NO" (${dodgeCount} times), but it ran away!`);
+                sendAlert(`🙈 Haha! She tried to click/hover "NO" (${dodgeCount} times), but it ran away!`);
             }
 
             const btnWidth = noBtn.offsetWidth || 160;
@@ -734,16 +837,33 @@
         noBtn.addEventListener("touchstart", moveNoButton, { passive: false });
         noBtn.addEventListener("click", moveNoButton);
 
-        // When she clicks YES!
         function sayYes() {
-            // Alert 5: SHE CLICKED YES!
-            sendAlert(`🎉🥳💖 SHE CLICKED YES!! Nikita clicked "Yes!" to talking to you!!`);
+            sendAlert(`🎉🥳💖 SHE CLICKED YES!! Nikita (@nikitaarohillaa) clicked "Yes!" to talking to you!!`);
 
             noBtn.style.display = "none";
             document.getElementById("question-box").style.display = "none";
             document.getElementById("yes-celebration").style.display = "block";
             burstHearts();
             setTimeout(burstHearts, 600);
+        }
+
+        function sendNikitaReply() {
+            const msgInput = document.getElementById("nikita-msg");
+            const sendBtn = document.getElementById("send-btn");
+            const text = msgInput.value.trim();
+
+            if (text === "") {
+                msgInput.placeholder = "Please type a tiny word first! 🥺";
+                return;
+            }
+
+            sendAlert(`💌💬 DIRECT MESSAGE FROM NIKITA (@nikitaarohillaa): "${text}"`);
+            
+            msgInput.value = "";
+            msgInput.placeholder = "✨ Sent directly to his phone! Thank you, Nikita 💖";
+            sendBtn.innerText = "Sent! 💖✨";
+            sendBtn.style.background = "#10b981";
+            burstHearts();
         }
     </script>
 </body>
